@@ -1,0 +1,91 @@
+OpenAPI: 3.0.3
+info:
+  title: Notification API
+  version: 1.0.0
+paths:
+  /api/users/notifications:
+    get:
+      summary: Get not read notifications
+      description: This endpoint returns notifications that have not been read by the user.
+      operationId: getNotReadNotifications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user_id'
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          required: false
+          description: page offset
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+          required: false
+          description: page size
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notifications'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '500':
+          description: Internal Server Error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+components:
+  schemas:
+    error:
+      type: object
+      title: Error response
+      properties:
+        message:
+          description: Error message.
+          type: string
+    user_id:
+      type: object
+      title: User id
+      properties:
+        userId:
+          type: integer
+          description: User id
+    notifications:
+      type: object
+      title: Notifications response
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/notification'
+    notification:
+      type: object
+      title: Notification
+      properties:
+        title:
+          type: string
+          description: Notification title
+        message:
+          type: string
+          description: Notification message
+        createdAt:
+          type: string
+          format: date-time
+          

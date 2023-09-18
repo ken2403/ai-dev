@@ -1,0 +1,134 @@
+OpenAPI: 3.0.3
+info:
+  title: CRUD API
+  version: 1.0.0
+paths:
+  /api/users/:id:
+    get:
+      summary: Get user by id.
+      description: This API is used to get user info by ID.
+      operationId: getUserById
+      responses:
+        '200':
+          description: Successfully get user info.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '500':
+          description: Internal Server Error.
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/error'
+    delete:
+      summary: Delete user by id.
+      description: This API is used to delete user info by ID.
+      operationId: deleteUserById
+      responses:
+        '204':
+          description: Successfully delete user info.
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '500':
+          description: Internal Server Error.
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/error'
+    put:
+      summary: Update user by id.
+      description: This API is used to update user info by ID.
+      operationId: updateUserById
+      requestBody:
+        description: User info to be updated.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+      responses:
+        '201':
+          description: Successfully update user info.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '500':
+          description: Internal Server Error.
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/error'
+  /api/users:
+    post:
+      summary: Create user.
+      description: This API is used to create user.
+      operationId: createUser
+      requestBody:
+        description: User info to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+      responses:
+        '201':
+          description: Successfully create user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        '500':
+          description: Internal Server Error.
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/error'
+components:
+  schemas:
+    error:
+      type: object
+      title: Error response
+      properties:
+        message:
+          description: Error message.
+          type: string
+    user:
+      type: object
+      title: User's detail information
+      properties:
+        name:
+          description: User name.
+          type: string
+        mail:
+          description: User mail.
+          type: string
+        birthday:
+          description: User birthday.
+          type: string
+          format: date
+        created_at:
+          description: When User created.
+          type: string
+          format: date-time
+        updated_at:
+          description: When User last updated.
+          type: string
+          format: date-time
